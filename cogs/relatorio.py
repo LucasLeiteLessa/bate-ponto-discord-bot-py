@@ -32,7 +32,10 @@ class Relatorio(commands.Cog):
 
                 canal = guild.get_channel(canal_id)
                 if not canal:
-                    continue
+                    try:
+                        canal = await self.bot.fetch_channel(canal_id)
+                    except Exception:
+                        continue
 
                 registros = self.bot.db.get_todos_pontos_dia(guild.id, hoje)
                 embed = embed_relatorio_diario(hoje, registros, guild)

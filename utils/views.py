@@ -53,11 +53,17 @@ class PainelPontoView(discord.ui.LayoutView):
 
         ponto_aberto = db.get_ponto_aberto(guild_id, user.id)
 
+        canal_log = interaction.guild.get_channel(config["canal_log"])
+        if not canal_log:
+            try:
+                canal_log = await interaction.client.fetch_channel(config["canal_log"])
+            except Exception:
+                canal_log = None
+
         if ponto_aberto is None:
             # ── Registrar entrada ─────────────────────────────
             agora = db.registrar_entrada(guild_id, user.id)
 
-            canal_log = interaction.guild.get_channel(config["canal_log"])
             if canal_log:
                 await canal_log.send(embed=embed_entrada(user, agora))
 
@@ -70,7 +76,6 @@ class PainelPontoView(discord.ui.LayoutView):
             entrada, saida = db.registrar_saida(guild_id, user.id)
 
             if entrada and saida:
-                canal_log = interaction.guild.get_channel(config["canal_log"])
                 if canal_log:
                     await canal_log.send(embed=embed_saida(user, entrada, saida))
 

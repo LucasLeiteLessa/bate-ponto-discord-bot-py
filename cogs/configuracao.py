@@ -70,6 +70,11 @@ class Configuracao(commands.Cog):
 
         canal = interaction.guild.get_channel(cid)
         if not canal:
+            try:
+                canal = await interaction.client.fetch_channel(cid)
+            except Exception:
+                pass
+        if not canal:
             await interaction.response.send_message(
                 embed=embed_base(
                     "❌ Canal Não Encontrado",
