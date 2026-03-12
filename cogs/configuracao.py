@@ -22,10 +22,13 @@ class Configuracao(commands.Cog):
         name="registro",
         description="Define o canal onde os registros de ponto serão enviados",
     )
-    @app_commands.describe(canal="Canal de texto para registros de entrada e saída")
+    @app_commands.describe(canal_id="ID do canal (clique direito no canal → Copiar ID)")
     async def configurar_registro(
-        self, interaction: discord.Interaction, canal: discord.TextChannel
+        self, interaction: discord.Interaction, canal_id: str
     ):
+        canal = await self._resolver_canal(interaction, canal_id)
+        if not canal:
+            return
         self.bot.db.set_canal_registro(interaction.guild_id, canal.id)
         await interaction.response.send_message(
             embed=embed_config_sucesso("registro", canal),
@@ -36,15 +39,46 @@ class Configuracao(commands.Cog):
         name="log",
         description="Define o canal de log detalhado do ponto",
     )
-    @app_commands.describe(canal="Canal de texto para logs detalhados")
+    @app_commands.describe(canal_id="ID do canal (clique direito no canal → Copiar ID)")
     async def configurar_log(
-        self, interaction: discord.Interaction, canal: discord.TextChannel
+        self, interaction: discord.Interaction, canal_id: str
     ):
+        canal = await self._resolver_canal(interaction, canal_id)
+        if not canal:
+            return
         self.bot.db.set_canal_log(interaction.guild_id, canal.id)
         await interaction.response.send_message(
             embed=embed_config_sucesso("log", canal),
             ephemeral=True,
         )
+
+    async def _resolver_canal(self, interaction: discord.Interaction, canal_id: str):
+        canal_id = canal_id.strip().replace("<#", "").replace(">", "")
+        try:
+            cid = int(canal_id)
+        except ValueError:
+            await interaction.response.send_message(
+                embed=embed_base(
+                    "❌ ID Inválido",
+                    "Informe um ID numérico válido.\n"
+                    "Ative o **Modo Desenvolvedor** nas configurações do Discord, "
+                    "depois clique com o botão direito no canal e **Copiar ID**.",
+                ),
+                ephemeral=True,
+            )
+            return None
+
+        canal = interaction.guild.get_channel(cid)
+        if not canal:
+            await interaction.response.send_message(
+                embed=embed_base(
+                    "❌ Canal Não Encontrado",
+                    f"Nenhum canal com ID `{cid}` foi encontrado neste servidor.",
+                ),
+                ephemeral=True,
+            )
+            return None
+        return canal
 
     @app_commands.command(
         name="painel",

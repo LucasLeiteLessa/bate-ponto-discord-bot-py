@@ -74,14 +74,18 @@ python bot.py
 
 ## ⚙️ Configuração dos Canais
 
-Antes de o bot funcionar em um servidor, um **administrador** precisa configurar dois canais obrigatórios:
+Antes de o bot funcionar em um servidor, um **administrador** precisa configurar dois canais obrigatórios.
+
+> 💡 Os comandos usam o **ID do canal**. Para copiar o ID:
+> 1. Abra as **Configurações do Discord** → **Avançado** → ative **Modo Desenvolvedor**
+> 2. Clique com o **botão direito** no canal desejado → **Copiar ID do canal**
 
 ### Canal de Registro
 
 Canal onde o **relatório diário automático** será enviado todos os dias às 23:59.
 
 ```
-/configurar registro #canal-de-registro
+/configurar registro canal_id:1234567890123456789
 ```
 
 ### Canal de Log
@@ -89,7 +93,7 @@ Canal onde o **relatório diário automático** será enviado todos os dias às 
 Canal onde cada **entrada e saída** de ponto será registrada em tempo real com detalhes do membro, horário e duração.
 
 ```
-/configurar log #canal-de-log
+/configurar log canal_id:1234567890123456789
 ```
 
 ### Enviar o Painel
@@ -110,8 +114,8 @@ Isso cria uma mensagem fixa com o botão **⏰ Bater Ponto** que os membros usam
 
 | Comando | Permissão | Descrição |
 |---|---|---|
-| `/configurar registro #canal` | Administrador | Define o canal de relatório diário |
-| `/configurar log #canal` | Administrador | Define o canal de log de entradas/saídas |
+| `/configurar registro canal_id:ID` | Administrador | Define o canal de relatório diário |
+| `/configurar log canal_id:ID` | Administrador | Define o canal de log de entradas/saídas |
 | `/painel` | Administrador | Envia o painel com botão de bater ponto |
 | `/relatorio inicio:DD/MM/AAAA fim:DD/MM/AAAA` | Administrador | Gera relatório de ponto por período |
 | `/relatorio inicio:DD/MM/AAAA fim:DD/MM/AAAA membro:@user` | Administrador | Relatório filtrado por membro |

@@ -106,7 +106,7 @@ def embed_em_servico(
     return embed
 
 
-def embed_config_sucesso(tipo: str, canal: discord.TextChannel) -> discord.Embed:
+def embed_config_sucesso(tipo: str, canal: discord.abc.GuildChannel) -> discord.Embed:
     return embed_base(
         "✅ Configuração Atualizada",
         f"O canal de **{tipo}** foi definido para {canal.mention}.",
