@@ -171,3 +171,16 @@ flow bate-ponto/
     ├── config/             # Configurações por servidor (guild_id.json)
     └── pontos/             # Registros de ponto por servidor (guild_id.json)
 ```
+
+---
+
+## 💾 Persistência dos Dados
+
+A partir da versão atual, **todos os dados de ponto e configurações são salvos em um banco SQLite** (`data/bateponto.sqlite3`).
+
+- O bot funciona normalmente em hosts efêmeros como Discloud, Heroku, Railway, etc.
+- O arquivo `bateponto.sqlite3` é criado automaticamente na pasta `data/`.
+- Não é necessário configurar banco externo.
+- Os dados persistem entre reinícios e deploys, desde que a pasta `data/` não seja apagada pelo host.
+
+Se for usar em ambiente que apaga tudo a cada deploy (como Discloud), faça backup do arquivo `data/bateponto.sqlite3` regularmente!

@@ -3,7 +3,7 @@ import discord
 from discord.ext import commands
 
 from config import BOT_TOKEN
-from database.manager import DatabaseManager
+from database.sqlite import SQLiteManager
 
 intents = discord.Intents.default()
 intents.members = True
@@ -15,7 +15,7 @@ bot = commands.Bot(
     description="FlowRP — Sistema de Bate-Ponto",
 )
 
-bot.db = DatabaseManager()
+bot.db = SQLiteManager()
 
 COGS = [
     "cogs.configuracao",
